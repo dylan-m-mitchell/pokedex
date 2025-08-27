@@ -1,5 +1,7 @@
+import { startREPL, cleanInput } from "./repl.js";
+
 function main() {
-    console.log("Hello, world!");
+  startREPL();
 }
 
 main();
