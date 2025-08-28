@@ -1,4 +1,5 @@
 import { createInterface } from "node:readline";
+import { getCommands } from "./commands.js";
 export function cleanInput(input) {
     // split strings into array
     input = input.toLowerCase();
@@ -14,13 +15,20 @@ export function startREPL() {
     rl.prompt();
     rl.on("line", (raw) => {
         const word = handleLine(raw);
+        const commands = getCommands();
+        // console.log(commands["exit"]);
         if (+word === 0) {
-            //   console.log("\n");
+            rl.prompt();
+            return;
+        }
+        else if (commands[word]) {
+            // const command: CLICommand = commands[word];
+            commands[word].callback(commands);
             rl.prompt();
             return;
         }
         else {
-            console.log(`Your command was: ${word}`);
+            console.log("Unknown command");
             rl.prompt();
             return;
         }
@@ -30,12 +38,3 @@ export function handleLine(raw) {
     const words = cleanInput(raw.trim());
     return words[0];
 }
-// // typescript
-// rl.on("line", (raw: string) => {
-//   const words = /* clean the raw input into an array */;
-//   if (/* no words */) {
-//     /* prompt again and return */
-//   }
-//   /* print "Your command was: <first word>" */
-//   /* prompt again */
-// });

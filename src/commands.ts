@@ -1,4 +1,4 @@
-import { commandExit } from "./command_exit";
+import {commandExit, commandHelp} from "./command_functions.js";
 
 export type CLICommand = {
     name: string;
@@ -14,5 +14,10 @@ export function getCommands(): Record<string, CLICommand> {
             callback: commandExit,
         },
         // can add more commands here
+        help: {
+            name: "help",
+            description: "Displays a help message",
+            callback: commandHelp,
+        },
     };
 }

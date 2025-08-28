@@ -1,5 +1,5 @@
 import { createInterface } from "node:readline";
-import { getCommands } from "./commands";
+import { getCommands } from "./commands.js";
 
 export function cleanInput(input: string): string[] {
   // split strings into array
