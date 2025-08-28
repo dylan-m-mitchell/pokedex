@@ -1,4 +1,6 @@
 import { createInterface } from "node:readline";
+import { CLICommand, getCommands } from "./commands";
+import { commandExit } from "./command_exit";
 
 export function cleanInput(input: string): string[] {
   // split strings into array
@@ -17,13 +19,16 @@ export function startREPL() {
 
   rl.on("line", (raw: string) => {
     const word: string = handleLine(raw);
+    const commands = getCommands();
 
     if (+word === 0) {
-      //   console.log("\n");
       rl.prompt();
       return;
-    } else {
-      console.log(`Your command was: ${word}`);
+
+    }
+    else if (word in commands) {
+      const command: CLICommand = commands[word];
+      command.callback();
       rl.prompt();
       return;
     }
@@ -34,12 +39,4 @@ export function handleLine(raw: string): string {
   const words: string[] = cleanInput(raw.trim());
   return words[0];
 }
-// // typescript
-// rl.on("line", (raw: string) => {
-//   const words = /* clean the raw input into an array */;
-//   if (/* no words */) {
-//     /* prompt again and return */
-//   }
-//   /* print "Your command was: <first word>" */
-//   /* prompt again */
-// });
+
