@@ -1,6 +1,5 @@
 import { createInterface } from "node:readline";
-import { CLICommand, getCommands } from "./commands";
-import { commandExit } from "./command_exit";
+import { getCommands } from "./commands";
 
 export function cleanInput(input: string): string[] {
   // split strings into array
@@ -20,17 +19,22 @@ export function startREPL() {
   rl.on("line", (raw: string) => {
     const word: string = handleLine(raw);
     const commands = getCommands();
+    // console.log(commands["exit"]);
 
     if (+word === 0) {
       rl.prompt();
       return;
 
     }
-    else if (word in commands) {
-      const command: CLICommand = commands[word];
-      command.callback();
+    else if (commands[word]) {
+      // const command: CLICommand = commands[word];
+      commands[word].callback(commands);
       rl.prompt();
       return;
+    } else {
+        console.log("Unknown command");
+        rl.prompt();
+        return;
     }
   });
 }
