@@ -1,7 +1,9 @@
 import { startREPL, cleanInput } from "./repl.js";
+import { initState, State } from "./state.js";
 
 function main() {
-  startREPL();
+  let state: State = initState();
+    startREPL(state);
 }
 
 main();
